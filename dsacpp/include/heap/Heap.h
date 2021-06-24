@@ -168,7 +168,7 @@ Heap<T>::Heap(
         void (*deleteUserData)(Heap<T>* ) ){
     //YOUR CODE HERE
     this->capacity = 100;
-    this->elements = new T[this->capacity];
+    this->elements = new T[100];
     this->count = 0;
     
     this->comparator = comparator;
@@ -201,7 +201,7 @@ void Heap<T>::push(T item){ //item  = 25
 
     int pos;
     for (pos = count; pos > 0; pos = (pos - 1) >> 1)
-        if (elements[(pos - 1) >> 1] < item)
+        if (compare(elements[(pos - 1) >> 1], item) == 1)
             elements[pos] = elements[(pos - 1) >> 1];
         else break;
 
@@ -233,7 +233,7 @@ T Heap<T>::pop(){
 
     elements[0] = elements[--count];
     T *temp = elements;
-    Heapify(elements, count);
+    heapify(elements, count);
 
     delete[] temp;
     return ret;
@@ -259,33 +259,61 @@ const T Heap<T>::peek(){
 template<class T>
 void Heap<T>::remove(T item, void (*removeItemData)(T)){
     //YOUR CODE HERE
+    bool success = false;
+    for (int i = 0; i < count; i++)
+        if (!compare(item, elements[i])) {
+            elements[i] = elements[count - 1];
+            success = true;
+            break;
+        }
+
+    if (!success) return;
+
+    if (removeItemData) removeItemData(item);
+    T *temp = elements;
+    heapify(elements, count - 1);
+    delete[] temp;
 }
 
 template<class T>
 bool Heap<T>::contains(T item){
     //YOUR CODE HERE
+    for (int i = 0; i < count; i++)
+        if (!compare(item, elements[i])) return true;
+    return false;
 }
 
 template<class T>
 int Heap<T>::size(){
     //YOUR CODE HERE
+    return count;
 }
 
 template<class T>
 void Heap<T>::heapify(T array[], int size){
     //YOUR CODE HERE
+    count = 0;
+    delete[] elements;
+    elements = new T[size + 100];
+    capacity = size + 100;
+
+    for (int i = 0; i < size; i++)
+        push(array[i]);
 }
 
 template<class T>
 void Heap<T>::clear(){
-    removeInternalData();
-    
+    removeInternalData();    
     //YOUR CODE HERE
+    count = 0;
+    capacity = 100;
+    elements = new T[100];
 }
 
 template<class T>
 bool Heap<T>::empty(){
     //YOUR CODE HERE
+    return count == 0;
 }
 
 template<class T>
