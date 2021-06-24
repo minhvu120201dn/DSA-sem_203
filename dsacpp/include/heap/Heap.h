@@ -197,16 +197,9 @@ Heap<T>::~Heap(){
 template<class T>
 void Heap<T>::push(T item){ //item  = 25
     //YOUR CODE HERE
-    ensureCapacity(count + 1);
-
-    int pos;
-    for (pos = count; pos > 0; pos = (pos - 1) >> 1)
-        if (compare(elements[(pos - 1) >> 1], item) == 1)
-            elements[pos] = elements[(pos - 1) >> 1];
-        else break;
-
-    elements[pos] = item;
-    count++;
+    ensureCapacity(++count);
+    elements[count - 1] = item;
+    reheapUp(count - 1);
 }
 /*
       18
@@ -232,10 +225,8 @@ T Heap<T>::pop(){
     T ret = elements[0];
 
     elements[0] = elements[--count];
-    T *temp = elements;
-    heapify(elements, count);
+    reheapDown(0);
 
-    delete[] temp;
     return ret;
 }
 
@@ -259,20 +250,15 @@ const T Heap<T>::peek(){
 template<class T>
 void Heap<T>::remove(T item, void (*removeItemData)(T)){
     //YOUR CODE HERE
-    bool success = false;
     for (int i = 0; i < count; i++)
         if (!compare(item, elements[i])) {
-            elements[i] = elements[count - 1];
-            success = true;
-            break;
+            if (removeItemData) removeItemData(item);
+
+            elements[i] = elements[--count];
+            reheapDown(i);
+
+            return;
         }
-
-    if (!success) return;
-
-    if (removeItemData) removeItemData(item);
-    T *temp = elements;
-    heapify(elements, count - 1);
-    delete[] temp;
 }
 
 template<class T>
@@ -293,9 +279,7 @@ template<class T>
 void Heap<T>::heapify(T array[], int size){
     //YOUR CODE HERE
     count = 0;
-    delete[] elements;
-    elements = new T[size + 100];
-    capacity = size + 100;
+    ensureCapacity(size);
 
     for (int i = 0; i < size; i++)
         push(array[i]);
@@ -369,11 +353,39 @@ void Heap<T>::swap(int a, int b){
 template<class T>
 void Heap<T>::reheapUp(int position){
     //YOUR CODE HERE
+    if (position == 0) return;
+
+    int parent = (position - 1) >> 1;
+    if (compare(elements[position], elements[parent]) == -1) {
+        swap(position, parent);
+        reheapUp(parent);
+    }
 }
 
 template<class T>
 void Heap<T>::reheapDown(int position){
     //YOUR CODE HERE
+    int child1 = (position << 1) + 1;
+    int child2 = (position << 1) + 2;
+
+    if (child1 >= count && child2 >= count) return;
+    else if (child1 >= count) {
+        swap(position, child2);
+        reheapDown(child2);
+    }
+    else if (child2 >= count) {
+        swap(position, child1);
+        reheapDown(child1);
+    }
+    else if (compare(elements[position], elements[child1]) == 1 || compare(elements[position], elements[child2]) == 1)
+        if (compare(elements[child1], elements[child2]) == 1) {
+            swap(position, child2);
+            reheapDown(child2);
+        }
+        else {
+            swap(position, child1);
+            reheapDown(child1);
+        }
 }
 
 template<class T>
