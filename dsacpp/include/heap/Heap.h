@@ -220,7 +220,7 @@ void Heap<T>::push(T item){ //item  = 25
 template<class T>
 T Heap<T>::pop(){
     //YOUR CODE HERE
-    if (count == 0) throw std::out_of_range("Connot pop when heap is empty!");
+    if (count == 0) throw std::runtime_error("Cannot pop when heap is empty!");
 
     T ret = elements[0];
 
@@ -250,14 +250,13 @@ const T Heap<T>::peek(){
 template<class T>
 void Heap<T>::remove(T item, void (*removeItemData)(T)){
     //YOUR CODE HERE
-    for (int i = 0; i < count; i++)
-        if (!compare(item, elements[i])) {
-            if (removeItemData) removeItemData(item);
-
-            elements[i] = elements[--count];
-            reheapDown(i);
-            reheapUp(i);
-
+    for (int i = 0; i < count; ++i)
+        if (!compare(elements[i], item)) {
+            int old_size = count;
+            count = i;
+            for (int j = i + 1; j < old_size; ++j)
+                push(elements[j]);
+            if (removeItemData) (*removeItemData)(item);
             return;
         }
 }

@@ -1,3 +1,8 @@
+/* Run command: g++ -std=c++11 HeapDemo.cpp -I dsacpp/include -o heaptest
+ * Then run ./heaptest <heap_size>
+ * (replace <heap_size> with a number)
+ */
+
 #include <iostream>
 #include "heap/Heap.h"
 #include "util/ArrayLib.h"
@@ -5,12 +10,6 @@
 #include <map>
 
 using namespace std;
-
-#define DEMO
-
-#ifndef DEMO
-
-#define TEST_SIZE 5000
 
 template <typename T>
 bool isValidHeap(T *elements, int size) {
@@ -20,7 +19,17 @@ bool isValidHeap(T *elements, int size) {
     return true;
 }
 
-int main() {
+template <typename T>
+T *copyFromHeap(Heap<T> &heap) {
+    T *dest = new T[heap.size()];
+    int ind = 0;
+    for (auto it = heap.begin(); it != heap.end(); ++it)
+        dest[ind++] = *it;
+    return dest;
+}
+
+int main(int argc, char** argv) {
+    int TEST_SIZE = stoi(argv[1]);
     Heap<int> minHeap;
     if (minHeap.size() != 0) {
         cout << "Fuck you idiot! Why did you change the lecturer's constructor?" << endl;
@@ -29,11 +38,9 @@ int main() {
 
     int *item = genIntArray(TEST_SIZE, 0, TEST_SIZE * 2);
     minHeap.heapify(item, TEST_SIZE);
-    {
-        int ind = 0;
-        for (auto it = minHeap.begin(); it != minHeap.end(); ++it)
-            item[ind++] = *it;
-    }
+    delete[] item;
+    item = copyFromHeap(minHeap);
+
     cout << "Heap before testing:\n";
     minHeap.println();
 
@@ -74,6 +81,7 @@ int main() {
                 cout << "You should have removed the last element!" << endl;
                 return 0;
             }
+            int *temp = copyFromHeap(minHeap);
             if (!isValidHeap(item,TEST_SIZE)) {
                 cout << "Removed elements:\n";
                 for (auto x : removed) cout << x << ',';
@@ -86,20 +94,3 @@ int main() {
         }
     }
 }
-#endif
-
-#ifdef DEMO
-int main() {
-    int item[] = {1,6,2,13,8,8,14,17,17,12};
-    Heap<int> minHeap;
-    minHeap.heapify(item,sizeof(item)/sizeof(item[0]));
-    minHeap.println();
-
-    int removal[] = {17};
-    for (int i = 0; i < sizeof(removal)/sizeof(removal[0]); i++) {
-        minHeap.remove(removal[i]);
-        minHeap.println();
-        cout << minHeap.size() << endl;
-    }
-}
-#endif
