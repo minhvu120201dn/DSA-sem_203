@@ -267,18 +267,22 @@ SLinkedList<T>::~SLinkedList() {
 
 template<class T>
 void SLinkedList<T>::add(T e) {
-    Node* node = new Node(e, tail);
-    //YOUR CODE HERE: 
-    Node *p = head;
-    while (p->next != tail) p = p->next;
-    p->next = node;
-    count += 1;
+    //YOUR CODE HERE:
+    tail->data = e;
+    tail->next = new Node(0,head);
+    tail = tail->next;
+    ++count;
 }
 template<class T>
 void SLinkedList<T>::add(int index, T e) {
     if((index < 0) || (index > count))
         throw std::out_of_range("The index is out of range!");
     //index in [0, count]
+    if (index == count) {
+        add(e);
+        return;
+    }
+
     Node* newNode = new Node(e, 0);
     
     //YOUR CODE HERE

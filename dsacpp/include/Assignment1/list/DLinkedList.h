@@ -23,7 +23,7 @@ using namespace std;
 
 
 template<class T>
-class DLinkedList: IList<T> {
+class DLinkedList: public IList<T> {
 public:
     class Node; //Forward declaration
     class Iterator; //Forward declaration

@@ -24,7 +24,7 @@ using namespace std;
 template <class T> class SLinkedList;
 
 template<class T>
-class SLinkedList: IList<T> {
+class SLinkedList: public IList<T> {
 public:
     class Iterator; //forward declaration
     class Node; //forward declaration
@@ -267,12 +267,11 @@ SLinkedList<T>::~SLinkedList() {
 
 template<class T>
 void SLinkedList<T>::add(T e) {
-    Node* node = new Node(e, tail);
-    //YOUR CODE HERE: 
-    Node *p = head;
-    while (p->next != tail) p = p->next;
-    p->next = node;
-    count += 1;
+    //YOUR CODE HERE:
+    tail->data = e;
+    tail->next = new Node(0,head);
+    tail = tail->next;
+    ++count;
 }
 template<class T>
 void SLinkedList<T>::add(int index, T e) {

@@ -256,6 +256,7 @@ void Heap<T>::remove(T item, void (*removeItemData)(T)){
 
             elements[i] = elements[--count];
             reheapDown(i);
+            reheapUp(i);
 
             return;
         }
@@ -369,10 +370,6 @@ void Heap<T>::reheapDown(int position){
     int child2 = (position << 1) + 2;
 
     if (child1 >= count && child2 >= count) return;
-    else if (child1 >= count) {
-        swap(position, child2);
-        reheapDown(child2);
-    }
     else if (child2 >= count) {
         swap(position, child1);
         reheapDown(child1);
