@@ -14,7 +14,7 @@
 //#include "test/BSTTest.h"
 //#include "test/StackTest.h"
 //#include "test/QueueTest.h"
-#include "test/HeapTest.h"
+//#include "test/HeapTest.h"
 //#include "test/PriorityQueueTest.h"
 //#include "test/XHashMapTest.h"
 //#include "test/SortTest.h"
