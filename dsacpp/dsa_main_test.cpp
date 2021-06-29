@@ -17,7 +17,7 @@
 //#include "test/HeapTest.h"
 //#include "test/PriorityQueueTest.h"
 //#include "test/XHashMapTest.h"
-//#include "test/SortTest.h"
+#include "test/SortTest.h"
 //#include "test/GraphTest.h"
 //#include "test/AVLTest.h"
 
