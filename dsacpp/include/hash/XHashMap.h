@@ -207,17 +207,17 @@ V XHashMap<K,V>::put(K key, V value){
     //YOUR CODE HERE
     ensureLoadFactor(count);
 
-    int ind = hashCode(key, capacity);
+    Entry *&first_ent = table[hashCode(key, capacity)];
 
-    for (Entry *ent = table[ind]; ent; ent = ent->next)
+    for (Entry *ent = first_ent; ent; ent = ent->next)
         if (ent->key == key) {
             V ret_val = ent->key;
             ent->value = value;
             return ret_val;
         }
 
-    table[ind] = new Entry(key, value, nullptr, table[ind]);
-    if (table[ind]->next) table[ind]->next->prev = table[ind];
+    first_ent = new Entry(key, value, nullptr, first_ent);
+    if (first_ent->next) first_ent->next->prev = first_ent;
     ++count;
     return value;
 }
@@ -244,8 +244,8 @@ void XHashMap<K,V>::moveEntries(Entry** oldTable, int oldCapacity,
 template<class K, class V>
 V& XHashMap<K,V>::get(K key){
     //YOUR CODE HERE
-    int ind = hashCode(key, capacity);    
-    for (Entry *ent = table[ind]; ent; ent = ent->next)
+    Entry *&first_ent = table[hashCode(key, capacity)];    
+    for (Entry *ent = first_ent; ent; ent = ent->next)
         if (ent->key == key) return ent->value;
     
     //IF key: not found
@@ -257,14 +257,14 @@ V& XHashMap<K,V>::get(K key){
 template<class K, class V>
 V XHashMap<K,V>::remove(K key,void (*deleteKeyInMap)(K)){
     //YOUR CODE HERE
-    int ind = hashCode(key, capacity);
-    for (Entry *ent = table[ind]; ent; ent = ent->next)
+    Entry *&first_ent = table[hashCode(key, capacity)];
+    for (Entry *ent = first_ent; ent; ent = ent->next)
         if (ent->key == key) {
             V ret_val = ent->value;
 
             if (ent->next) ent->next->prev = ent->prev;
             if (ent->prev) ent->prev->next = ent->next;
-            if (ent == table[ind]) table[ind] = ent->next;
+            if (ent == first_ent) first_ent = ent->next;
 
             if (deleteKeyInMap) deleteKeyInMap(ent->key);
             delete ent;
@@ -281,12 +281,12 @@ V XHashMap<K,V>::remove(K key,void (*deleteKeyInMap)(K)){
 template<class K, class V>
 bool XHashMap<K,V>::remove(K key, V value, void (*deleteKeyInMap)(K), void (*deleteValueInMap)(V)){
     //YOUR CODE HERE
-    int ind = hashCode(key, capacity);
-    for (Entry *ent = table[ind]; ent; ent = ent->next)
+    Entry *&first_ent = table[hashCode(key, capacity)];
+    for (Entry *ent = first_ent; ent; ent = ent->next)
         if (ent->key == key && ent->value == value) {
             if (ent->prev) ent->prev->next = ent->next;
             if (ent->next) ent->next->prev = ent->prev;
-            if (ent == table[ind]) table[ind] = ent->next;
+            if (ent == first_ent) first_ent = ent->next;
 
             if (deleteKeyInMap) deleteKeyInMap(ent->key);
             if (deleteValueInMap) deleteValueInMap(ent->value);
@@ -300,8 +300,8 @@ bool XHashMap<K,V>::remove(K key, V value, void (*deleteKeyInMap)(K), void (*del
 template<class K, class V>
 bool XHashMap<K,V>::containsKey(K key){
     //YOUR CODE HERE
-    int ind = hashCode(key, capacity);
-    for (Entry *ent = table[ind]; ent; ent = ent->next)
+    Entry *&first_ent = table[hashCode(key, capacity)];
+    for (Entry *ent = first_ent; ent; ent = ent->next)
         if (ent->key == key) return true;
     return false;
 }
