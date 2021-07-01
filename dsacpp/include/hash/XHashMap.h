@@ -205,6 +205,21 @@ XHashMap<K,V>::~XHashMap(){
 template<class K, class V>
 V XHashMap<K,V>::put(K key, V value){
     //YOUR CODE HERE
+    ensureLoadFactor(count);
+
+    int ind = hashCode(key, capacity);
+
+    for (Entry *ent = table[ind]; ent; ent = ent->next)
+        if (ent->key == key) {
+            V ret_val = ent->key;
+            ent->value = value;
+            return ret_val;
+        }
+
+    table[ind] = new Entry(key, value, nullptr, table[ind]);
+    if (table[ind]->next) table[ind]->next->prev = table[ind];
+    ++count;
+    return value;
 }
 
 template<class K, class V>
@@ -229,46 +244,86 @@ void XHashMap<K,V>::moveEntries(Entry** oldTable, int oldCapacity,
 template<class K, class V>
 V& XHashMap<K,V>::get(K key){
     //YOUR CODE HERE
-    
+    int ind = hashCode(key, capacity);    
+    for (Entry *ent = table[ind]; ent; ent = ent->next)
+        if (ent->key == key) return ent->value;
     
     //IF key: not found
     stringstream os;
-    os << "key (" << entry->key << ") is not found";
+    os << "key (" << key << ") is not found";
     throw KeyNotFound(os.str());
 }
 
 template<class K, class V>
 V XHashMap<K,V>::remove(K key,void (*deleteKeyInMap)(K)){
     //YOUR CODE HERE
+    int ind = hashCode(key, capacity);
+    for (Entry *ent = table[ind]; ent; ent = ent->next)
+        if (ent->key == key) {
+            V ret_val = ent->value;
+
+            if (ent->next) ent->next->prev = ent->prev;
+            if (ent->prev) ent->prev->next = ent->next;
+            if (ent == table[ind]) table[ind] = ent->next;
+
+            if (deleteKeyInMap) deleteKeyInMap(ent->key);
+            delete ent;
+            --count;
+            return ret_val;
+        }
     
     //IF key: not found
     stringstream os;
-    os << "key (" << entry->key << ") is not found";
+    os << "key (" << key << ") is not found";
     throw KeyNotFound(os.str());
 }
 
 template<class K, class V>
 bool XHashMap<K,V>::remove(K key, V value, void (*deleteKeyInMap)(K), void (*deleteValueInMap)(V)){
     //YOUR CODE HERE
+    int ind = hashCode(key, capacity);
+    for (Entry *ent = table[ind]; ent; ent = ent->next)
+        if (ent->key == key && ent->value == value) {
+            if (ent->prev) ent->prev->next = ent->next;
+            if (ent->next) ent->next->prev = ent->prev;
+            if (ent == table[ind]) table[ind] = ent->next;
+
+            if (deleteKeyInMap) deleteKeyInMap(ent->key);
+            if (deleteValueInMap) deleteValueInMap(ent->value);
+            delete ent;
+            --count;
+            return true;
+        }
+    return false;
 }
 
 template<class K, class V>
 bool XHashMap<K,V>::containsKey(K key){
     //YOUR CODE HERE
+    int ind = hashCode(key, capacity);
+    for (Entry *ent = table[ind]; ent; ent = ent->next)
+        if (ent->key == key) return true;
+    return false;
 }
 
 template<class K, class V>
 bool XHashMap<K,V>::containsValue(V value){
     //YOUR CODE HERE
+    for (int i = 0; i < capacity; ++i)
+        for (Entry *ent = table[i]; ent; ent = ent->next)
+            if (ent->value == value) return true;
+    return false;
 }
 template<class K, class V>
 bool XHashMap<K,V>::empty(){
     //YOUR CODE HERE
+    return count == 0;
 }
 
 template<class K, class V>
 int XHashMap<K,V>::size(){
     //YOUR CODE HERE
+    return count;
 }
 
 template<class K, class V>
@@ -276,6 +331,10 @@ void XHashMap<K,V>::clear(){
     removeInternalData();
     
     //YOUR CODE HERE
+    count = 0;
+    capacity = 10;
+    table = new Entry*[10];
+    memset(table, 0, sizeof(Entry*) * 10);
 }
 
 template<class K, class V>
@@ -316,6 +375,9 @@ template<class K, class V>
 DLinkedList<K> XHashMap<K,V>::keys(){
     DLinkedList<K> list;
     //YOUR CODE HERE
+    for (int i = 0; i < capacity; ++i)
+        for (Entry *ent = table[i]; ent; ent = ent->next)
+            list.add(ent->key);
     return list;
 }
 
@@ -323,6 +385,9 @@ template<class K, class V>
 DLinkedList<V> XHashMap<K,V>::values(){
     DLinkedList<V> list;
     //YOUR CODE HERE
+    for (int i = 0; i < capacity; ++i)
+        for (Entry *ent = table[i]; ent; ent = ent->next)
+            list.add(ent->value);
     return list;
 }
 
