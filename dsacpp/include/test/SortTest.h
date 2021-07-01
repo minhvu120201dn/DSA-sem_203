@@ -50,18 +50,71 @@ TEST_CASE( "Sorting ascending" ) {
             }
         }
     }
-    SUBCASE("Random data"){
-        for(int algIdx = 0; algIdx < 6; algIdx++){
-            int count = 1000;
-            int* values = genIntArray(count, 0, 999999);
+    SUBCASE("Random data for StraightInsertionSort.h") {
+        int count = 1000;
+        int* values = genIntArray(count, 0, 999999);
 
-            pAlgorithm[algIdx]->sort(values, count, &SortSimpleOrder<int>::compare4Ascending);
+        pAlgorithm[0]->sort(values, count, &SortSimpleOrder<int>::compare4Ascending);
 
-            //Then check values: ascending
-            REQUIRE(isOrdered(values, count, true) == true);
-            
-            delete []values;
-        }
+        //Then check values: ascending
+        REQUIRE(isOrdered(values, count, true) == true);
+        
+        delete []values;
+    }
+    SUBCASE("Random data for ShellSort.h") {
+        int count = 1000;
+        int* values = genIntArray(count, 0, 999999);
+
+        pAlgorithm[1]->sort(values, count, &SortSimpleOrder<int>::compare4Ascending);
+
+        //Then check values: ascending
+        REQUIRE(isOrdered(values, count, true) == true);
+        
+        delete []values;
+    }
+    SUBCASE("Random data for StraightSelectionSort.h") {
+        int count = 1000;
+        int* values = genIntArray(count, 0, 999999);
+
+        pAlgorithm[2]->sort(values, count, &SortSimpleOrder<int>::compare4Ascending);
+
+        //Then check values: ascending
+        REQUIRE(isOrdered(values, count, true) == true);
+        
+        delete []values;
+    }
+    SUBCASE("Random data for BubbleSort.h") {
+        int count = 1000;
+        int* values = genIntArray(count, 0, 999999);
+
+        pAlgorithm[3]->sort(values, count, &SortSimpleOrder<int>::compare4Ascending);
+
+        //Then check values: ascending
+        REQUIRE(isOrdered(values, count, true) == true);
+        
+        delete []values;
+    }
+    SUBCASE("Random data for HeapSort.h") {
+        int count = 1000;
+        int* values = genIntArray(count, 0, 999999);
+
+        pAlgorithm[4]->sort(values, count, &SortSimpleOrder<int>::compare4Ascending);
+
+        //Then check values: ascending
+        REQUIRE(isOrdered(values, count, true) == true);
+        
+        delete []values;
+    }
+    SUBCASE("Random data for QuickSort.h") {
+        int count = 1000;
+        int* values = genIntArray(count, 0, 999999);
+
+        pAlgorithm[5]->sort(values, count, &SortSimpleOrder<int>::compare4Ascending);
+
+        //Then check values: ascending
+        REQUIRE(isOrdered(values, count, true) == true);
+        
+        delete []values;
     }
     //Delete sorters
     for(int algIdx = 0; algIdx < 5; algIdx++){
@@ -93,18 +146,71 @@ TEST_CASE( "Sorting ascending" ) {
             }
         }
     }
-    SUBCASE("Random data"){
-        for(int algIdx = 0; algIdx < 6; algIdx++){
+    SUBCASE("Random data for StraightInsertionSort.h") {
+        int count = 1000;
+        int* values = genIntArray(count, 0, 999999);
+
+        pAlgorithm[0]->sort(values, count, &SortSimpleOrder<int>::compare4Desending);
+
+        //Then check values: descending
+        REQUIRE(isOrdered(values, count, false) == true);
+        
+        delete []values;
+    }
+    SUBCASE("Random data for ShellSort.h") {
+        int count = 1000;
+        int* values = genIntArray(count, 0, 999999);
+
+        pAlgorithm[1]->sort(values, count, &SortSimpleOrder<int>::compare4Desending);
+
+        //Then check values: descending
+        REQUIRE(isOrdered(values, count, false) == true);
+        
+        delete []values;
+    }
+    SUBCASE("Random data for StraightSelectionSort.h") {
+        int count = 1000;
+        int* values = genIntArray(count, 0, 999999);
+
+        pAlgorithm[2]->sort(values, count, &SortSimpleOrder<int>::compare4Desending);
+
+        //Then check values: descending
+        REQUIRE(isOrdered(values, count, false) == true);
+        
+        delete []values;
+    }
+    SUBCASE("Random data for BubbleSort.h") {
+        int count = 1000;
+        int* values = genIntArray(count, 0, 999999);
+
+        pAlgorithm[3]->sort(values, count, &SortSimpleOrder<int>::compare4Desending);
+
+        //Then check values: descending
+        REQUIRE(isOrdered(values, count, false) == true);
+        
+        delete []values;
+    }
+    SUBCASE("Random data for HeapSort.h") {
             int count = 1000;
-            int* values = genIntArray(count, 0, 999999);
+        int* values = genIntArray(count, 0, 999999);
 
-            pAlgorithm[algIdx]->sort(values, count, &SortSimpleOrder<int>::compare4Desending);
+        pAlgorithm[4]->sort(values, count, &SortSimpleOrder<int>::compare4Desending);
 
-            //Then check values: descending
-            REQUIRE(isOrdered(values, count, false) == true);
-            
-            delete []values;
-        }
+        //Then check values: descending
+        REQUIRE(isOrdered(values, count, false) == true);
+        
+        delete []values;
+    }
+    SUBCASE("Random data for QuickSort.h") {
+        int count = 1000;
+        int* values = genIntArray(count, 0, 999999);
+
+        pAlgorithm[5]->sort(values, count, &SortSimpleOrder<int>::compare4Desending);
+
+        //Then check values: descending
+        REQUIRE(isOrdered(values, count, false) == true);
+        
+        delete []values;
     }
     
     //Delete sorters

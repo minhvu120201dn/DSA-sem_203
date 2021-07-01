@@ -25,11 +25,11 @@ public:
     }
     void sort(T array[], int size, int (*comparator)(T&,T&)=0){  
         //YOUR CODE HERE
-        Heap<T> minHeap;
-        minHeap.heapify(array, size);
+        this->comparator = comparator;
+        this->heapify(array, size);
         int ind = 0;
-        while (!minHeap.empty())
-            array[ind++] = minHeap.pop();
+        while (!this->empty())
+            array[ind++] = this->pop();
     }         
                 
 };

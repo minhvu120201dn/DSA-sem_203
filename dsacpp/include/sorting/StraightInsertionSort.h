@@ -20,6 +20,13 @@ class StraightInsertionSort: public ISort<T>{
 public:
     void sort(T array[], int size, int (*comparator)(T&,T&)){
         //YOUR CODE HERE
+        for (int i = 1; i < size; ++i) {
+            T temp = array[i];
+            int j;
+            for (j = i; j > 0 && (*comparator)(temp, array[j - 1]) < 0; --j)
+                array[j] = array[j - 1];
+            array[j] = temp;
+        }
     }
 };
 

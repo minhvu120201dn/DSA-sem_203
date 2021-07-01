@@ -267,10 +267,10 @@ SLinkedList<T>::~SLinkedList() {
 
 template<class T>
 void SLinkedList<T>::add(T e) {
+    Node *node = new Node(e,tail);
     //YOUR CODE HERE:
-    tail->data = e;
-    tail->next = new Node(0,head);
-    tail = tail->next;
+    tail->next->next = node;
+    tail->next = node;
     ++count;
 }
 template<class T>
@@ -312,6 +312,8 @@ T SLinkedList<T>::removeAt(int index){
     p->next = p->next->next;
     delete temp;
 
+    if (index == count - 1) tail->next = p;
+
     --count;
     return data;
 }
@@ -323,6 +325,7 @@ bool SLinkedList<T>::removeItem(T item, void (*removeItemData)(T)){
         if (equals(p->next->data,item,this->itemEqual)) {
             Node *temp = p->next;
             p->next = p->next->next;
+            if (temp == tail->next) tail->next = p;
             delete temp;
             count--;
             return true;

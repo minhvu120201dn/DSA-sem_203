@@ -20,7 +20,7 @@
 #include "sorting/BubbleSort.h"
 using namespace std;
 
-void BuubleSortDemo1(){
+void BubbleSortDemo1(){
     int values[] = {45, 97, 12, 2, 39, 3, 37, 87};
     cout << left << setw(22) << "Before:";
     for(int idx=0; idx < 8; idx++){

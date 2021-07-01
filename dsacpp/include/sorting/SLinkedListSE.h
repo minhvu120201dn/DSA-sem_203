@@ -14,7 +14,7 @@
 #ifndef SLINKEDLISTSE_H
 #define SLINKEDLISTSE_H
 
-#include "list/DLinkedList.h"
+#include "list/SLinkedList.h"
 #include "sorting/ISort.h"
 
 template<class T>
@@ -64,9 +64,36 @@ protected:
     };
     void devide(typename SLinkedList<T>::Node*& first, typename SLinkedList<T>::Node*& second){
         //YOUR CODE HERE
+        int count = 0;
+        for (typename SLinkedList<T>::Node *p = first; p; p = p->next) ++count;
+        count = count >> 1;
+    
+        second = first;
+        for (int i = 1; i < count; ++i) second = second->next;
+        typename SLinkedList<T>::Node *temp = second;
+        second = second->next;
+        temp->next = NULL;
     }
     void merge(typename SLinkedList<T>::Node*& first, typename SLinkedList<T>::Node*& second, int (*comparator)(T&,T&)=0){
         //YOUR CODE HERE
+        if (!first || !second) {
+            if (!first) first = second;
+            return;
+        }
+        if (!comparator) comparator = &SortSimpleOrder<int>::compare4Ascending;
+
+        typename SLinkedList<T>::Node *head, *tail;
+        if ((*comparator)(first->data, second->data) < 0) head = first, first = first->next;
+        else head = second, second = second->next;
+        tail = head;
+
+        while (first && second)
+            if ((*comparator)(first->data, second->data) < 0) tail->next = first, tail = tail->next, first = first->next;
+            else tail->next = second, tail = tail->next, second = second->next;
+        if (!first) tail->next = second;
+        else tail->next = first;
+
+        first = head;
     }
 };
 

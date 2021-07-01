@@ -352,35 +352,37 @@ void Heap<T>::swap(int a, int b){
 template<class T>
 void Heap<T>::reheapUp(int position){
     //YOUR CODE HERE
-    if (position == 0) return;
-
-    int parent = (position - 1) >> 1;
-    if (compare(elements[position], elements[parent]) == -1) {
-        swap(position, parent);
-        reheapUp(parent);
+    T temp = elements[position];
+    while (position != 0) {
+        int parent = (position - 1) >> 1;
+        if (compare(temp, elements[parent]) < 0) {
+            elements[position] = elements[parent];
+            position = parent;
+        }
+        else break;
     }
+    elements[position] = temp;
 }
 
 template<class T>
 void Heap<T>::reheapDown(int position){
     //YOUR CODE HERE
-    int child1 = (position << 1) + 1;
-    int child2 = (position << 1) + 2;
+    T temp = elements[position];
+    while (true) {
+        int child1 = (position << 1) + 1;
+        int child2 = (position << 1) + 2;
+        T *largest = &temp;
 
-    if (child1 >= count && child2 >= count) return;
-    else if (child2 >= count) {
-        swap(position, child1);
-        reheapDown(child1);
+        if (child1 <= count && compare(*largest, elements[child1]) > 0) largest = elements + child1;
+        if (child2 <= count && compare(*largest, elements[child2]) > 0) largest = elements + child2;
+
+        if (largest != &temp) {
+            elements[position] = *largest;
+            position = largest - elements;
+        }
+        else break;
     }
-    else if (compare(elements[position], elements[child1]) == 1 || compare(elements[position], elements[child2]) == 1)
-        if (compare(elements[child1], elements[child2]) == 1) {
-            swap(position, child2);
-            reheapDown(child2);
-        }
-        else {
-            swap(position, child1);
-            reheapDown(child1);
-        }
+    elements[position] = temp;
 }
 
 template<class T>
