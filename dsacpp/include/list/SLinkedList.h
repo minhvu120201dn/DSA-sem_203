@@ -359,6 +359,8 @@ T& SLinkedList<T>::get(int index){
     if((index < 0) || (index > count - 1))
         throw std::out_of_range("The index is out of range!");
     //YOUR CODE HERE
+    if (index == count - 1) return tail->prev->data;
+
     Node *p = head->next;
     for (int i = 0; i < index; i++) p = p->next;
     return p->data;
