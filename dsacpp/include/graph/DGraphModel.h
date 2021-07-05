@@ -37,6 +37,8 @@ public:
     
     void connect(T from, T to, float weight=0){
         //YOUR CODE HERE
+        typename AbstractGraph<T>::VertexNode *start = this->getVertexNode(from), *dest = this->getVertexNode(to);
+        start->connect(dest, weight);
     }
     void disconnect(T from, T to){
         //YOUR CODE HERE

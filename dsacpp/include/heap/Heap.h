@@ -355,7 +355,7 @@ void Heap<T>::reheapUp(int position){
     T temp = elements[position];
     while (position != 0) {
         int parent = (position - 1) >> 1;
-        if (compare(temp, elements[parent]) < 0) {
+        if (aLTb(temp, elements[parent])) {
             elements[position] = elements[parent];
             position = parent;
         }
@@ -373,8 +373,8 @@ void Heap<T>::reheapDown(int position){
         int child2 = (position << 1) + 2;
         T *largest = &temp;
 
-        if (child1 <= count && compare(*largest, elements[child1]) > 0) largest = elements + child1;
-        if (child2 <= count && compare(*largest, elements[child2]) > 0) largest = elements + child2;
+        if (child2 <= count && aLTb(elements[child2], *largest) > 0) largest = elements + child2;
+        if (child1 <= count && aLTb(elements[child1], *largest) > 0) largest = elements + child1;
 
         if (largest != &temp) {
             elements[position] = *largest;
