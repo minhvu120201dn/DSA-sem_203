@@ -14,10 +14,12 @@
 //#include "test/BSTTest.h"
 //#include "test/StackTest.h"
 //#include "test/QueueTest.h"
-#include "test/HeapTest.h"
-#include "test/PriorityQueueTest.h"
+//#include "test/HeapTest.h"
+//#include "test/PriorityQueueTest.h"
 //#include "test/XHashMapTest.h"
-#include "test/SortTest.h"
+//#include "test/SortTest.h"
 //#include "test/GraphTest.h"
 //#include "test/AVLTest.h"
+
+#include "testassignments/HeapTestASSIGN.h"
 

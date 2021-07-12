@@ -248,10 +248,12 @@ V& XHashMap<K,V>::get(K key){
     for (Entry *ent = first_ent; ent; ent = ent->next)
         if (ent->key == key) return ent->value;
     
-    //IF key: not found
+    //key: not found
     stringstream os;
+    //OLD: os << "key (" << entry->key << ") is not found";
     os << "key (" << key << ") is not found";
     throw KeyNotFound(os.str());
+
 }
 
 template<class K, class V>
@@ -502,6 +504,14 @@ void XHashMap<K,V>::copyMapFrom(const XHashMap<K,V>& map){
     }
 }
 
+template <typename K, typename V>
+class Pair {
+public:
+    K key;
+    V value;
+public:
+    Pair(K key, V value) : key(key), value(value) {}
+};
 
 #endif /* XHASHMAP_H */
 

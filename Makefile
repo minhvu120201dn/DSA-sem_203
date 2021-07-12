@@ -132,11 +132,3 @@ run:
 
 demo:
 	g++ -std=c++11 main.cpp dsacpp/src/geom/*.cpp -I dsacpp/include -o main
-	./main
-
-csv:
-	g++ -std=c++11 listtimeit.cpp dsacpp/src/geom/*.cpp -I dsacpp/include -o listtimeit
-	rm -f alisttime.csv slisttime.csv dlisttime.csv
-	./listtimeit -a alisttime.csv -nsizes 100 -ntries 10 -nexec 20 -max_length 10000
-	./listtimeit -s alisttime.csv -nsizes 100 -ntries 10 -nexec 20 -max_length 10000
-	./listtimeit -d alisttime.csv -nsizes 100 -ntries 10 -nexec 20 -max_length 10000

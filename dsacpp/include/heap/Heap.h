@@ -251,7 +251,11 @@ const T Heap<T>::peek(){
 template<class T>
 void Heap<T>::remove(T item, void (*removeItemData)(T)){
     //YOUR CODE HERE
-    for (int i = 0; i < count; ++i)
+    if (!compare(elements[0], item)) {
+        pop();
+        return;
+    }
+    for (int i = 1; i < count; ++i)
         if (!compare(elements[i], item)) {
             int old_size = count;
             count = i;
@@ -291,6 +295,8 @@ void Heap<T>::clear(){
     removeInternalData();    
     //YOUR CODE HERE
     count = 0;
+    capacity = 100;
+    elements = new T[100];
 }
 
 template<class T>
@@ -332,7 +338,8 @@ void Heap<T>::ensureCapacity(int minCapacity){
         capacity = old_capacity + (old_capacity >> 2);
         try{
             T* new_data = new T[capacity];
-            memcpy(new_data, elements, capacity*sizeof(T));
+            //OLD: memcpy(new_data, elements, capacity*sizeof(T));
+            memcpy(new_data, elements, old_capacity*sizeof(T));
             delete []elements;
             elements = new_data;
         }
