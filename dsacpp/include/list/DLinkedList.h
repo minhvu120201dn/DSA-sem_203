@@ -50,6 +50,7 @@ public:
             void (*deleteUserData)(DLinkedList<T>*)=0, 
             bool (*itemEqual)(T&, T&)=0); 
     DLinkedList(const DLinkedList<T>& list);
+    DLinkedList(DLinkedList<T>&& list);
     DLinkedList<T>& operator=(const DLinkedList<T>& list);
     ~DLinkedList();
     
@@ -303,6 +304,18 @@ DLinkedList<T>::DLinkedList(const DLinkedList<T>& list){
     //YOUR CODE HERE
     head = new Node, tail = new Node;
     copyFrom(list);
+}
+
+template<class T>
+DLinkedList<T>::DLinkedList(DLinkedList<T>&& list){
+    this->head = list.head;
+    this->tail = list.tail;
+    this->count = list.count;
+    this->itemEqual = list.itemEqual;
+    this->deleteUserData = list.deleteUserData;
+
+    list.head = list.tail = nullptr;
+    list.count = 0;
 }
 
 template<class T>

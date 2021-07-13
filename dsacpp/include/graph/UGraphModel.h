@@ -37,12 +37,41 @@ public:
     
     void connect(T from, T to, float weight=0){
         //YOUR CODE HERE
+        typename AbstractGraph<T>::VertexNode *start = this->getVertexNode(from);
+        typename AbstractGraph<T>::VertexNode *dest = this->getVertexNode(to);
+        if (!start) throw VertexNotFoundException(this->vertex2Str(*start));
+        if (!dest) throw VertexNotFoundException(this->vertex2Str(*dest));
+        if (start->equals(dest)) {
+            start->connect(start, weight);
+        }
+        else {
+            start->connect(dest, weight);
+            dest->connect(start, weight);
+        }
     }
     void disconnect(T from, T to){
         //YOUR CODE HERE
+        typename AbstractGraph<T>::VertexNode *start = this->getVertexNode(from);
+        typename AbstractGraph<T>::VertexNode *dest = this->getVertexNode(to);
+        if (!start) throw VertexNotFoundException(this->vertex2Str(*start));
+        if (!dest) throw VertexNotFoundException(this->vertex2Str(*dest));
+        if (start->equals(dest)) {
+            start->removeTo(start);
+        }
+        else {
+            start->removeTo(dest);
+            dest->removeTo(start);
+        }
     }
     void remove(T vertex){
         //YOUR CODE HERE
+        typename DLinkedList<typename AbstractGraph<T>::VertexNode*>::Iterator node = this->nodeList.begin();
+        while (node != this->nodeList.end() && !this->vertexEQ((*node)->getVertex(), vertex)) ++node;
+        if (!(node != this->nodeList.end())) throw VertexNotFoundException(this->vertex2Str(**node));
+
+        for (typename DLinkedList<typename AbstractGraph<T>::Edge*>::Iterator it = (*node)->adList.begin(); it != (*node)->adList.end(); ++it)
+            (*it)->to->removeTo(*node);
+        node.remove();
     }
 };
 

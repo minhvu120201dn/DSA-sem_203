@@ -18,6 +18,14 @@
 #include "graph/DGraphModel.h"
 #include "graph/TopoSorter.h"
 
+bool charComparator(char& lhs, char& rhs){
+    return lhs==rhs;
+}
+string vertex2str(char& v){
+    stringstream os;
+    os << v;
+    return os.str();
+}
 
 TEST_CASE( "TopoSort with DGraphModel" ) {
     int nv = 10, ne = 14;
@@ -36,16 +44,18 @@ TEST_CASE( "TopoSort with DGraphModel" ) {
     REQUIRE(model.size() == nv);
     
     TopoSorter<char> sorter(&model);
-    DLinkedList<char> bfs = sorter.sort(TopoSorter<char>::BFS);
     DLinkedList<char>::Iterator it;
     
     int v= 0;
+    DLinkedList<char> bfs = sorter.sort(TopoSorter<char>::BFS);
+    REQUIRE(bfs.size() == 10);
     for(it = bfs.begin(); it != bfs.end(); it++){
         REQUIRE(*it == bfs_exp[v++]);
     }
     
     v = 0;
     DLinkedList<char> dfs = sorter.sort(TopoSorter<char>::DFS);
+    REQUIRE(dfs.size() == 10);
     for(it = dfs.begin(); it != dfs.end(); it++){
         REQUIRE(*it == dfs_exp[v++]);
     }

@@ -14,6 +14,7 @@
 #ifndef TOPOSORTER_H
 #define TOPOSORTER_H
 #include "graph/DGraphModel.h"
+#include "hash/XHashMap.h"
 
 template<class T>
 class TopoSorter{

@@ -343,7 +343,8 @@ public:
         float weight;
         friend class VertexNode;
         friend class AbstractGraph;
-        
+        template<class U>
+        friend class UGraphModel;
         
     public:
         Edge(){}
