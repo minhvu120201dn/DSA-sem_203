@@ -22,7 +22,7 @@
 ////////////////////////  DGraphModel Test        ////////////////////
 //////////////////////////////////////////////////////////////////////
 
-
+#ifndef TOPOSORTERTEST_H
 bool charComparator(char& lhs, char& rhs){
     return lhs==rhs;
 }
@@ -31,6 +31,7 @@ string vertex2str(char& v){
     os << v;
     return os.str();
 }
+#endif
 
 TEST_CASE( "DGraphModel<char>:" ) {
     DGraphModel<char> model(&charComparator, &vertex2str);

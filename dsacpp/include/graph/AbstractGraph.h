@@ -18,7 +18,7 @@
 #include <sstream>
 using namespace std;
 
-
+#include "stacknqueue/IDeck.h"
 template<class T>
 class AbstractGraph: public IGraph<T>{
 public:
@@ -89,7 +89,10 @@ public:
     virtual void disconnect(T from, T to)=0;
     virtual void remove(T vertex)=0;
     
-    
+    inline void pushZeroInDegreeNodes(IDeck<VertexNode*> *deck) {
+        for (typename DLinkedList<VertexNode*>::Iterator it = nodeList.begin(); it != nodeList.end(); ++it)
+            if ((*it)->inDegree_ == 0) deck->push(*it);
+    }
     
     /* The following are common methods for UGraphModel and DGraphModel
      */
@@ -331,6 +334,15 @@ public:
                     << "in: " << this->inDegree_ << ", "
                     << "out: " << this->outDegree_ << ")";
             return os.str();
+        }
+
+        inline VertexNode **getChildrenNodes(int &num) {
+            num = adList.size();
+            VertexNode **ret_list = new VertexNode*[num];
+            int ind = 0;
+            for (typename DLinkedList<Edge*>::Iterator it = this->adList.begin(); it != this->adList.end(); ++it)
+                ret_list[ind++] = (*it)->to;
+            return ret_list;
         }
     };
 //END of VertexNode    

@@ -307,18 +307,6 @@ DLinkedList<T>::DLinkedList(const DLinkedList<T>& list){
 }
 
 template<class T>
-DLinkedList<T>::DLinkedList(DLinkedList<T>&& list){
-    this->head = list.head;
-    this->tail = list.tail;
-    this->count = list.count;
-    this->itemEqual = list.itemEqual;
-    this->deleteUserData = list.deleteUserData;
-
-    list.head = list.tail = nullptr;
-    list.count = 0;
-}
-
-template<class T>
 DLinkedList<T>& DLinkedList<T>::operator=(const DLinkedList<T>& list){
     removeInternalData();
     copyFrom(list);
