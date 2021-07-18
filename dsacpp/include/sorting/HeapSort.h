@@ -31,7 +31,7 @@ public:
             this->push(array[i]);
         int ind = 0;
         while (!this->empty())
-            array[ind++] = this->pop();
+            array[ind] = this->pop(), ind += stride;
     }         
                 
 };

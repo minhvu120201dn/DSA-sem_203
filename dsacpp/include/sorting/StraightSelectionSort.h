@@ -24,7 +24,7 @@ public:
         //YOUR CODE HERE
         for (int i = 0; i < (size - 1) * stride; i += stride) {
             int ind = i; T m = array[i];
-            for (int j = i + stride; j < size * stride; ++j)
+            for (int j = i + stride; j < size * stride; j += stride)
                 if ((*comparator)(array[j], m) < 0) ind = j, m = array[j];
             T temp = array[i];
             array[i] = array[ind];
