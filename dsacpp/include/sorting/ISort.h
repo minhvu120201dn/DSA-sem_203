@@ -17,7 +17,7 @@
 template<class T>
 class ISort{
 public:
-    virtual void sort(T array[], int size, int (*comparator)(T&,T&) =0) = 0;
+    virtual void sort(T array[], int size, int (*comparator)(T&,T&) =0, int stride = 1) = 0;
     virtual ~ISort(){};
 };
 

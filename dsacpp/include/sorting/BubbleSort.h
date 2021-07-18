@@ -19,14 +19,14 @@
 template<class T>
 class BubbleSort: public ISort<T>{
 public:
-    void sort(T array[], int size, int (*comparator)(T&,T&)){
+    void sort(T array[], int size, int (*comparator)(T&,T&), int stride = 1){
         //YOUR CODE HERE
         for (int floor = size - 1; floor > 0; --floor)
-            for (int i = 0; i < floor; ++i)
-                if ((*comparator)(array[i], array[i+1]) == 1) {
+            for (int i = 0; i < floor * stride; i += stride)
+                if ((*comparator)(array[i], array[i + stride]) == 1) {
                     T temp = array[i];
-                    array[i] = array[i+1];
-                    array[i+1] = temp;
+                    array[i] = array[i + stride];
+                    array[i + stride] = temp;
                 }
     }
 };

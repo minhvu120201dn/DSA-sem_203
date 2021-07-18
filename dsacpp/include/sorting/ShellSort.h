@@ -37,13 +37,6 @@ public:
             int segment_idx, int cur_segment_total,
             int (*comparator)(T&, T&)){
         //YOUR CODE HERE
-        int gap = num_segment_list[segment_idx];
-        for (int i = gap; i < size; ++i) {
-            T temp = array[i]; int j;
-            for (j = i; j >= gap && (*comparator)(array[j - gap], temp) > 0; j -= gap)
-                array[j] = array[j - gap];
-            array[j] = temp;
-        }
     }
     /*
     shell_sort
@@ -51,10 +44,17 @@ public:
     num_segments: 
          + The first must be 1, for examples: [1,3,7]
     */
-    void sort(T array[], int size, int (*comparator)(T&,T&)){
+    void sort(T array[], int size, int (*comparator)(T&,T&), int stride = 1){
         //YOUR CODE HERE
-        for (int segment_idx = num_phases - 1; segment_idx >= 0; --segment_idx)
-            sortSegment(array, size, segment_idx, 0, comparator);
+        for (int segment_idx = num_phases - 1; segment_idx >= 0; --segment_idx) {
+            int gap = num_segment_list[segment_idx];
+            for (int i = gap * stride; i < size * stride; i += stride) {
+                T temp = array[i]; int j;
+                for (j = i; j >= gap * stride && (*comparator)(array[j - gap * stride], temp) > 0; j -= gap * stride)
+                    array[j] = array[j - gap * stride];
+                array[j] = temp;
+            }
+        }
     }
 };
 

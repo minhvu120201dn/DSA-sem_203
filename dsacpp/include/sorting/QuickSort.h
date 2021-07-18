@@ -23,8 +23,8 @@ public:
     QuickSort(int (*pivotSelection)(T*, int)=0){
         this->pivotSelection = pivotSelection;
     }
-    void sort(T array[], int size, int (*comparator)(T&,T&) =0){
-        quicksort(array, size, comparator, this->pivotSelection);
+    void sort(T array[], int size, int (*comparator)(T&,T&) =0, int stride = 1){
+        quicksort(array, size, stride, comparator, this->pivotSelection);
     }
     
 private:
@@ -33,26 +33,26 @@ private:
         elements[aidx] = elements[bidx];
         elements[bidx] = temp;
     };
-    void quicksort(T* elements, int size, int (*comparator)(T&,T&)=0, int (*pivotSelection)(T*, int)=0){
+    void quicksort(T* elements, int size, int stride, int (*comparator)(T&,T&)=0, int (*pivotSelection)(T*, int)=0){
         if(size >= 2){
             //pickup a pivot
             int pivot;
             if(pivotSelection != 0) pivot = pivotSelection(elements, size);
-            else pivot = pickupPivot(elements, size);
+            else pivot = pickupPivot(elements, size, stride);
             
             //swap the pivot with the first
             swap(elements, 0, pivot);
             
             //
-            int too_big_index = 1;
-            int too_small_index = size - 1;
+            int too_big_index = stride;
+            int too_small_index = size - stride;
             while(too_small_index > too_big_index){
                 while(  (too_big_index < size) && 
                         (compare(elements[too_big_index], elements[0], comparator) <= 0) ) 
-                    too_big_index += 1;
+                    too_big_index += stride;
                 while(  (too_small_index > 0) && 
                         (compare(elements[too_small_index], elements[0], comparator) > 0) ) 
-                    too_small_index -= 1;
+                    too_small_index -= stride;
                 if(too_big_index < too_small_index) swap(elements, too_small_index, too_big_index);
             }
             if(compare(elements[too_small_index], elements[0], comparator) < 0)
@@ -66,10 +66,10 @@ private:
              */
             int left_start = 0;
             int left_size = too_small_index;
-            int right_start = too_small_index + 1;
-            int right_size = (size - 1) - right_start + 1;
-            quicksort(&elements[left_start], left_size, comparator, pivotSelection);
-            quicksort(&elements[right_start], right_size, comparator, pivotSelection);
+            int right_start = too_small_index + stride;
+            int right_size = (size - stride) - right_start + stride;
+            quicksort(&elements[left_start], left_size, stride, comparator, pivotSelection);
+            quicksort(&elements[right_start], right_size, stride, comparator, pivotSelection);
         }
     }
     
@@ -85,11 +85,11 @@ private:
     /*pickupPivot:
      *  use "median of threes
      */
-    static int pickupPivot(T* elements, int size){
+    static int pickupPivot(T* elements, int size, int stride){
         if(size <= 0) throw std::out_of_range("Invalid size");
         if((size == 1) || (size == 2)) return 0;
         else{
-            int first = 0, mid = int(size/2), last = (size - 1);
+            int first = 0, mid = int(size/2) * stride, last = (size - 1) * stride;
             if ((first > mid) != (first > last)) 
                 return first;
             else if ((mid > first) != (mid > last)) 

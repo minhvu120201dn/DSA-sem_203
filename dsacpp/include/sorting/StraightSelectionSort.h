@@ -20,11 +20,11 @@
 template<class T>
 class StraightSelectionSort: public ISort<T>{
 public:   
-    void sort(T array[], int size, int (*comparator)(T&,T&)){
+    void sort(T array[], int size, int (*comparator)(T&,T&), int stride = 1){
         //YOUR CODE HERE
-        for (int i = 0; i < size - 1; ++i) {
+        for (int i = 0; i < (size - 1) * stride; i += stride) {
             int ind = i; T m = array[i];
-            for (int j = i + 1; j < size; ++j)
+            for (int j = i + stride; j < size * stride; ++j)
                 if ((*comparator)(array[j], m) < 0) ind = j, m = array[j];
             T temp = array[i];
             array[i] = array[ind];

@@ -23,10 +23,12 @@ public:
                 void (*deleteUserData)(Heap<T>*)=0 ):
                 Heap<T>(comparator, deleteUserData){
     }
-    void sort(T array[], int size, int (*comparator)(T&,T&)=0){  
+    void sort(T array[], int size, int (*comparator)(T&,T&)=0, int stride = 1){  
         //YOUR CODE HERE
         this->comparator = comparator;
-        this->heapify(array, size);
+        //this->heapify(array, size);
+        for (int i = 0; i < size * stride; i += stride)
+            this->push(array[i]);
         int ind = 0;
         while (!this->empty())
             array[ind++] = this->pop();
