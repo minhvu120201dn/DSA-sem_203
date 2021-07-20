@@ -128,5 +128,12 @@ class IFinder{
     virtual DLinkedList<Path<T>> dijkstra(IGraph<T>* pGraph, T start)=0;
 };
 
+template <typename T>
+struct Edge {
+    T from, to;
+    int weight;
+    Edge(T from, T to, int weight = 0) : from(from), to(to), weight(weight) {}
+};
+
 #endif /* IGRAPH_H */
 

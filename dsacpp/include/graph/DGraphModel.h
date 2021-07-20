@@ -62,6 +62,13 @@ public:
             (*it)->removeTo(*node);
         node.remove();
     }
+
+    static DGraphModel<T> *create(T *vertexList, int vertexNum, Edge<T> *edgeList, int edgeNum, bool (*vertexEQ)(T&, T&), string (*vertex2str)(T&)) {
+        DGraphModel<T> *graph = new DGraphModel(vertexEQ, vertex2str);
+        for (int i = 0; i < vertexNum; ++i) graph->add(vertexList[i]);
+        for (int i = 0; i < edgeNum; ++i) graph->connect(edgeList[i].from, edgeList[i].to, edgeList[i].weight);
+        return graph;
+    }
 };
 
 #endif /* DGRAPHMODEL_H */

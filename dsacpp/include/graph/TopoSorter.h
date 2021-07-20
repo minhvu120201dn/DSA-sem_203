@@ -24,10 +24,12 @@ public:
     
 protected:
     DGraphModel<T>* graph;
+    int (*hash_code)(T&, int);
     
 public:
-    TopoSorter(DGraphModel<T>* graph){
+    TopoSorter(DGraphModel<T>* graph, int (*hash_code)(T&, int)= XHashMap<T,int>::simpleHash){
         this->graph = graph;
+        this->hash_code = hash_code;
     }   
     DLinkedList<T> sort(int mode=0){
         if(mode == DFS) return dfsSort();
@@ -87,7 +89,7 @@ public:
     }
 protected:
     inline XHashMap<T, bool> inQueueMap(Queue<typename AbstractGraph<T>::VertexNode*> &open) {
-        XHashMap<T, bool> map(&XHashMap<T, bool>::simpleHash);
+        XHashMap<T, bool> map(this->hash_code);
         typename AbstractGraph<T>::Iterator vertexIt = this->graph->begin();
         while(vertexIt != this->graph->end()){
             T vertex = *vertexIt;
@@ -100,7 +102,7 @@ protected:
         return map;
     }
     inline XHashMap<T, bool> inStackMap(Stack<typename AbstractGraph<T>::VertexNode*> &open) {
-        XHashMap<T, bool> map(&XHashMap<T, bool>::simpleHash);
+        XHashMap<T, bool> map(this->hash_code);
         typename AbstractGraph<T>::Iterator vertexIt = this->graph->begin();
         while(vertexIt != this->graph->end()){
             T vertex = *vertexIt;
@@ -113,7 +115,7 @@ protected:
         return map;
     }
     inline XHashMap<T, bool> vertex2Visited(){
-        XHashMap<T, bool> map(&XHashMap<T, bool>::simpleHash);
+        XHashMap<T, bool> map(this->hash_code);
         typename AbstractGraph<T>::Iterator vertexIt = this->graph->begin();
         while(vertexIt != this->graph->end()){
             T vertex = *vertexIt;
@@ -125,7 +127,7 @@ protected:
     }
 
     XHashMap<T, int> vertex2inDegree(){
-        XHashMap<T, int> map(&XHashMap<T, int>::simpleHash);
+        XHashMap<T, int> map(this->hash_code);
         typename AbstractGraph<T>::Iterator vertexIt = this->graph->begin();
         while(vertexIt != this->graph->end()){
             T vertex = *vertexIt;
@@ -137,7 +139,7 @@ protected:
         return map;
     }
     XHashMap<T, int> vertex2outDegree(){
-        XHashMap<T, int> map(&XHashMap<T, int>::simpleHash);
+        XHashMap<T, int> map(this->hash_code);
         typename AbstractGraph<T>::Iterator vertexIt = this->graph->begin();
         while(vertexIt != this->graph->end()){
             T vertex = *vertexIt;
