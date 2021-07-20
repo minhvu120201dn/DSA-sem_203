@@ -31,7 +31,7 @@ public:
         if (this->count == 0) return;
 
         this->tail->prev->next = NULL;
-        if (!comparator) comparator = &SortSimpleOrder<int>::compare4Ascending;
+        if (!comparator) comparator = &SortSimpleOrder<T>::compare4Ascending;
         mergeSort(this->head->next, comparator);
 
         typename DLinkedList<T>::Node *p;
@@ -78,7 +78,6 @@ protected:
             if (!first) first = second;
             return;
         }
-        if (!comparator) comparator = &SortSimpleOrder<int>::compare4Ascending;
 
         typename DLinkedList<T>::Node *head, *tail;
         if ((*comparator)(first->data, second->data) < 0) head = first, first = first->next;

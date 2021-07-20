@@ -21,13 +21,17 @@ class BubbleSort: public ISort<T>{
 public:
     void sort(T array[], int size, int (*comparator)(T&,T&), int stride = 1){
         //YOUR CODE HERE
-        for (int floor = size - 1; floor > 0; --floor)
+        for (int floor = size - 1; floor > 0; --floor) {
+            bool sorted = true;
             for (int i = 0; i < floor * stride; i += stride)
                 if ((*comparator)(array[i], array[i + stride]) == 1) {
                     T temp = array[i];
                     array[i] = array[i + stride];
                     array[i + stride] = temp;
+                    sorted = false;
                 }
+            if (sorted) break;
+        }
     }
 };
 

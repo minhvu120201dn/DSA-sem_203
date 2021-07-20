@@ -28,6 +28,7 @@ public:
         
     };
     void sort(int (*comparator)(T&,T&)=0){
+        if (!comparator) comparator = &SortSimpleOrder<T>::compare4Ascending;
         if(this->count > 0){
             typename SLinkedList<T>::Node* first = this->head->next; //first user's data
             this->tail->next->next = 0; //to tail => to 0
@@ -80,7 +81,6 @@ protected:
             if (!first) first = second;
             return;
         }
-        if (!comparator) comparator = &SortSimpleOrder<int>::compare4Ascending;
 
         typename SLinkedList<T>::Node *head, *tail;
         if ((*comparator)(first->data, second->data) < 0) head = first, first = first->next;

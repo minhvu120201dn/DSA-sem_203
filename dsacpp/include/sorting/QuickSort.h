@@ -89,9 +89,9 @@ private:
         if((size == 1) || (size == 2)) return 0;
         else{
             int first = 0, mid = int(size/2), last = (size - 1);
-            if ((first > mid) != (first > last)) 
+            if ((elements[first] > elements[mid]) != (elements[first] > elements[last]))
                 return first;
-            else if ((mid > first) != (mid > last)) 
+            else if ((elements[mid] > elements[first]) != (elements[mid]> elements[last]))
                 return mid;
             else
                 return last;
