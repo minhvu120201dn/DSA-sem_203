@@ -52,6 +52,11 @@ public:
     Vector3D operator*(float s); //scaling with a factor
     Vector3D& operator=(const Vector3D& other);
     operator float(); //cast a vector to a float value
+
+    inline void operator+=(Vector3D other) { *this = *this + other; }
+    inline void operator-=(Vector3D other) { *this = *this - other; }
+    inline void operator*=(float s) { *this = *this / s; }
+    inline bool operator!=(Vector3D rhs) { return x != rhs.x && y != rhs.y && z != rhs.z; }
     
     //
     void println();

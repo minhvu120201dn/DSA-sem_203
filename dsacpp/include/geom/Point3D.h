@@ -47,6 +47,7 @@ public:
     Point3D& operator=(const Point3D& other);
     operator float(); //cast a point to a float value
     
+    inline void operator+=(Vector3D dir) { *this = *this + dir; }
     
     float radius();
     void println();

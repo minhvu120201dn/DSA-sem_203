@@ -88,7 +88,7 @@ float Vector3D::operator*(Vector3D other){
     return this->x*other.x + this->y*other.y + this->z*other.z;
 }
 Vector3D Vector3D::operator*(float s){
-    return Vector3D(this->x*s + this->y*s + this->z*s);
+    return Vector3D(this->x*s, this->y*s, this->z*s);
 }
 Vector3D& Vector3D::operator=(const Vector3D& other){
     this->x = other.x;
