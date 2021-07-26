@@ -59,7 +59,7 @@ public:
         if (!(node != this->nodeList.end())) throw VertexNotFoundException(this->vertex2Str(**node));
 
         for (typename DLinkedList<typename AbstractGraph<T>::VertexNode*>::Iterator it = this->nodeList.begin(); it != this->nodeList.end(); ++it)
-            (*it)->removeTo(*node);
+            (*it)->removeTo(*node), (*node)->removeTo(*it);
         node.remove();
     }
 

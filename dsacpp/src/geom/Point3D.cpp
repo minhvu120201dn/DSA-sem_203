@@ -45,13 +45,13 @@ void Point3D::setX(float x){
 float Point3D::getX() const{
     return this->x;
 }
-void Point3D::setY(float x){
+void Point3D::setY(float y){
     this->y = y;
 }
 float Point3D::getY() const{
     return this->y;
 }
-void Point3D::setZ(float x){
+void Point3D::setZ(float z){
     this->z = z;
 }
 float Point3D::getZ() const{
@@ -70,6 +70,12 @@ Vector3D Point3D::operator-(Point3D other){
 }
 Point3D Point3D::operator+(Vector3D dir){
     return Point3D(this->x + dir.getX(), this->y + dir.getY(), this->z + dir.getZ());
+}
+Point3D& Point3D::operator=(const Point3D& other) {
+    this->x = other.x;
+    this->y = other.y;
+    this->z = other.z;
+    return *this;
 }
 
 Point3D::operator float(){

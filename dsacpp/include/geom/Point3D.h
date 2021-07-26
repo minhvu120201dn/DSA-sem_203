@@ -44,6 +44,7 @@ public:
     bool operator==(Point3D rhs);
     Vector3D operator-(Point3D other);
     Point3D operator+(Vector3D dir);
+    Point3D& operator=(const Point3D& other);
     operator float(); //cast a point to a float value
     
     

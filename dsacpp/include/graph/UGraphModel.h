@@ -70,7 +70,8 @@ public:
         if (!(node != this->nodeList.end())) throw VertexNotFoundException(this->vertex2Str(**node));
 
         for (typename DLinkedList<typename AbstractGraph<T>::Edge*>::Iterator it = (*node)->adList.begin(); it != (*node)->adList.end(); ++it)
-            (*it)->to->removeTo(*node);
+            if ((*it)->to->vertex != (*node)->vertex)
+                (*it)->to->removeTo(*node), --(*it)->to->inDegree_;
         node.remove();
     }
 

@@ -314,11 +314,11 @@ public:
         }
         
         void removeTo(VertexNode* to){
-            this->outDegree_ -= 1;
-            to->inDegree_ -= 1;
-            
             Edge* pEdge = new Edge(this, to);
-            this->adList.removeItem(pEdge);
+            if (this->adList.removeItem(pEdge)) {
+                this->outDegree_ -= 1;
+                to->inDegree_ -= 1;
+            }            
             delete pEdge;
         }
         int inDegree(){

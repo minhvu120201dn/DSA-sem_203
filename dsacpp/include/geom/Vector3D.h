@@ -50,6 +50,7 @@ public:
     Vector3D operator-();
     float operator*(Vector3D other); //dot-product
     Vector3D operator*(float s); //scaling with a factor
+    Vector3D& operator=(const Vector3D& other);
     operator float(); //cast a vector to a float value
     
     //
