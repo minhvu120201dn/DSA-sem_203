@@ -6,5 +6,4 @@ int main() {
     Point3D a(1,2,3);
     a += Vector3D(1,2,4);
     a.println();
-    return 0;
 }
