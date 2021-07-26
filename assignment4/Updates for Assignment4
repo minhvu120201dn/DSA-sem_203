@@ -1,0 +1,61 @@
+(1) Add class Edge to IGraph.h to support the following code:
+
+void demo(){
+    char vertices[] = {B, E, A, M, J};
+    Edge<char> edges[] = {
+        Edge<char>(B, A),
+        Edge<char>(E, A),
+        Edge<char>(A, M),
+        Edge<char>(A, J)
+    };
+    DGraphModel<char> model(&comparator<char>, vertex2str);
+    for(char v: vertices) model.add(v);
+    for(Edge<char> e: edges) model.connect(e.from, e.to, e.weight);
+    model.println();
+}
+
+(2) Add "create" method to Class DGraphModel and to Class UGraphModel to support the following code:
+void demo("){
+    char vertices[] = {B, E, A, M, J};
+    Edge<char> edges[] = {
+        Edge<char>(B, A),
+        Edge<char>(E, A),
+        Edge<char>(A, M),
+        Edge<char>(A, J)
+    };
+    DGraphModel<char>* model = DGraphModel<char>::create(
+                vertices, //pointer to the first vertex in an array of vertices
+                5, //number of vertices in the array
+                edges, //pointer to the first edge in an array of edges
+                4, //number of edges in the array
+                &vertex_equal, //pointer to a function for checking the equality of two vertices
+                &vertex_2_str //pointer to a function for converting vertices to string
+    );
+    model->println();
+    delete model;
+}
+
+void demo("){
+    char vertices[] = {B, E, A, M, J};
+    Edge<char> edges[] = {
+        Edge<char>(B, A),
+        Edge<char>(E, A),
+        Edge<char>(A, M),
+        Edge<char>(A, J)
+    };
+    UGraphModel<char>* model = UGraphModel<char>::create(
+                vertices, //pointer to the first vertex in an array of vertices
+                5, //number of vertices in the array
+                edges, //pointer to the first edge in an array of edges
+                4, //number of edges in the array
+                &vertex_equal, //pointer to a function for checking the equality of two vertices
+                &vertex_2_str //pointer to a function for converting vertices to string
+    );
+    model->println();
+    delete model;
+}
+
+(3) Change class TopoSorter as in file TopoSorter.h (attached)
+* The update is to allow programmer passing hash_function (for vertex) into the constructor of TopoSorter.
+* Why "hash_function"? because topologically sorting algorithms (via DFS or BFS) need to collect of vertices with zero indegree or outdegree => use XHashMap to store this kind of mapping
+

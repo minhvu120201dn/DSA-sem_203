@@ -246,6 +246,8 @@ public:
     class VertexNode{
     private:
         template<class U>
+        friend class DGraphModel;
+        template<class U>
         friend class UGraphModel; //UPDATED: added
         T vertex;
         int inDegree_, outDegree_;
@@ -355,6 +357,8 @@ public:
         float weight;
         friend class VertexNode;
         friend class AbstractGraph;
+        template<class U>
+        friend class DGraphModel;
         template<class U>
         friend class UGraphModel;
         
