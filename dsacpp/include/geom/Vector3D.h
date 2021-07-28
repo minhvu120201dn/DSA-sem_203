@@ -50,13 +50,7 @@ public:
     Vector3D operator-();
     float operator*(Vector3D other); //dot-product
     Vector3D operator*(float s); //scaling with a factor
-    Vector3D& operator=(const Vector3D& other);
     operator float(); //cast a vector to a float value
-
-    inline void operator+=(Vector3D other) { *this = *this + other; }
-    inline void operator-=(Vector3D other) { *this = *this - other; }
-    inline void operator*=(float s) { *this = *this / s; }
-    inline bool operator!=(Vector3D rhs) { return x != rhs.x && y != rhs.y && z != rhs.z; }
     
     //
     void println();
@@ -67,6 +61,9 @@ public:
     
     
     //Static section
+    static Vector3D* genVectors(  int size, 
+                                float minValue=0, float maxValue=1, 
+                                bool manualSeed=false, int seedValue=0);
     static bool equals(Vector3D& lhs, Vector3D& rhs); //with pointer to point
     static bool equals(Vector3D*& lhs, Vector3D*& rhs); //with pointer to point
     static string toString(Vector3D& point);
